@@ -12,6 +12,7 @@ namespace HelloWorldService.Controllers
     {
         private static int nextId = 100;
         public static List<Contact> contacts = new List<Contact>();
+
         // GET api/contacts
         public IEnumerable<Contact> Get()
         {

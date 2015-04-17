@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorldService", "HelloWorldService\HelloWorldService.csproj", "{5780395C-C9EC-4A32-AACE-06048EBF7DCF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorldService.Tests", "HelloWorldService.Tests\HelloWorldService.Tests.csproj", "{0252E098-5A28-4C32-B961-1BE448A41702}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorldClient", "HelloWorldClient\HelloWorldClient.csproj", "{E9983445-F74F-4650-8405-78DB3C523EED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactsDb", "ContactsDb\ContactsDb.csproj", "{DFCF60C3-1F27-4C41-BF42-95A381126660}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{E9983445-F74F-4650-8405-78DB3C523EED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9983445-F74F-4650-8405-78DB3C523EED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9983445-F74F-4650-8405-78DB3C523EED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFCF60C3-1F27-4C41-BF42-95A381126660}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFCF60C3-1F27-4C41-BF42-95A381126660}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFCF60C3-1F27-4C41-BF42-95A381126660}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFCF60C3-1F27-4C41-BF42-95A381126660}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
