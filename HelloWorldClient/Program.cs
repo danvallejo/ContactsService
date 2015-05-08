@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Contacts.Linq;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,8 +41,16 @@ namespace HelloWorldClient
     {
         static void Main(string[] args)
         {
+            var context = new Contacts.Linq.ContactsDataContext("Server=(local);Database=Contacts;Trusted_Connection=True;");
+
+            context.Connection.Open();
+
+            var contacts = from row in context.Contacts1 select row;
+
+            var contacts2 = context.Contacts1.Select(row => row.ContactId).ToArray();
+
             var client = new HttpClient();
-            client.BaseAddress = new Uri("http://localhost.fiddler:62366/api/");
+            client.BaseAddress = new Uri("http://localhost/helloworldservice/api/");
             var result = client.GetAsync("contacts").Result;
             var json = result.Content.ReadAsStringAsync().Result;
             Console.WriteLine(json);

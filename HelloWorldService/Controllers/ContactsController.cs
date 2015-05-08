@@ -4,19 +4,24 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using HelloWorldService.Models;
+using System.Web.Http.ModelBinding;
+using HelloWorldRepository;
 
 namespace HelloWorldService.Controllers
 {
     public class ContactsController : ApiController
     {
-        private static int nextId = 100;
-        public static List<Contact> contacts = new List<Contact>();
+       private ContactsRepository contactsRepository = new ContactsRepository();
 
-        // GET api/contacts
-        public IEnumerable<Contact> Get()
+        // GET api/contacts 
+        public IEnumerable<Models.Contact> Get()
         {
-            return contacts;
+            return contactsRepository.Contacts.Select(t => new Models.Contact
+            {
+                ID = t.ID,
+                Name = t.Name,
+                DateAdded = t.DateAdded,
+            });
         }
 
         // GET api/contacts/5

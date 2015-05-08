@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorldClient", "HelloWo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactsDb", "ContactsDb\ContactsDb.csproj", "{DFCF60C3-1F27-4C41-BF42-95A381126660}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorldRepository", "HelloWorldRepository\HelloWorldRepository.csproj", "{2AA9F1B1-BBEA-4B15-BEFF-DAECF32DB445}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{DFCF60C3-1F27-4C41-BF42-95A381126660}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFCF60C3-1F27-4C41-BF42-95A381126660}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFCF60C3-1F27-4C41-BF42-95A381126660}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AA9F1B1-BBEA-4B15-BEFF-DAECF32DB445}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AA9F1B1-BBEA-4B15-BEFF-DAECF32DB445}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AA9F1B1-BBEA-4B15-BEFF-DAECF32DB445}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AA9F1B1-BBEA-4B15-BEFF-DAECF32DB445}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
