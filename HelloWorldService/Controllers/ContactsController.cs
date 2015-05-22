@@ -6,12 +6,13 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.ModelBinding;
 using HelloWorldRepository;
+using HelloWorldService.Models;
 
 namespace HelloWorldService.Controllers
 {
     public class ContactsController : ApiController
     {
-       private ContactsRepository contactsRepository = new ContactsRepository();
+        private ContactsRepository contactsRepository = new ContactsRepository();
 
         // GET api/contacts 
         public IEnumerable<Models.Contact> Get()
@@ -25,33 +26,42 @@ namespace HelloWorldService.Controllers
         }
 
         // GET api/contacts/5
-        public Contact Get(int id)
+        public Models.Contact Get(int id)
         {
-            var contact =  contacts.FirstOrDefault(t => t.ID == id);
+            var contact = contactsRepository.Get(id);
 
             if (contact == null)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
-            return contact;
+            return new Models.Contact
+            {
+                ID = contact.ID,
+                Name = contact.Name,
+                DateAdded = contact.DateAdded,
+            };
         }
 
         // POST api/contacts
-        public void Post([FromBody]Contact value)
+        public void Post([FromBody]Models.Contact contact)
         {
-            value.ID = nextId++;
-            contacts.Add(value);
-            value.DateAdded = DateTime.Now;
+            contactsRepository.Add(new HelloWorldRepository.Contact
+            {
+                ID = contact.ID,
+                Name = contact.Name,
+                DateAdded = contact.DateAdded,
+            });
         }
 
         // PUT api/contacts/5
-        public void Put(int id, [FromBody]Contact value)
+        public void Put(int id, [FromBody]Models.Contact value)
         {
         }
 
         // DELETE api/contacts/5
         public void Delete(int id)
         {
+            contactsRepository.Delete(id);
         }
     }
 }
