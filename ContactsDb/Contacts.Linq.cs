@@ -31,9 +31,15 @@ namespace Contacts.Linq
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
+    partial void InsertContactPhone(ContactPhone instance);
+    partial void UpdateContactPhone(ContactPhone instance);
+    partial void DeleteContactPhone(ContactPhone instance);
     partial void InsertContact(Contact instance);
     partial void UpdateContact(Contact instance);
     partial void DeleteContact(Contact instance);
+    partial void InsertPhoneType(PhoneType instance);
+    partial void UpdatePhoneType(PhoneType instance);
+    partial void DeletePhoneType(PhoneType instance);
     #endregion
 		
 		public ContactsDataContext(string connection) : 
@@ -60,6 +66,14 @@ namespace Contacts.Linq
 			OnCreated();
 		}
 		
+		public System.Data.Linq.Table<ContactPhone> ContactPhones
+		{
+			get
+			{
+				return this.GetTable<ContactPhone>();
+			}
+		}
+		
 		public System.Data.Linq.Table<Contact> Contacts1
 		{
 			get
@@ -67,9 +81,257 @@ namespace Contacts.Linq
 				return this.GetTable<Contact>();
 			}
 		}
+		
+		public System.Data.Linq.Table<PhoneType> PhoneTypes
+		{
+			get
+			{
+				return this.GetTable<PhoneType>();
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetAllContacts")]
+		public ISingleResult<GetAllContactsResult> GetAllContacts([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> flag, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(50)")] string index)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), flag, index);
+			return ((ISingleResult<GetAllContactsResult>)(result.ReturnValue));
+		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Contact")]
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ContactPhones")]
+	[global::System.Runtime.Serialization.DataContractAttribute()]
+	public partial class ContactPhone : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _PhoneId;
+		
+		private int _ContactId;
+		
+		private string _PhoneNumber;
+		
+		private int _PhoneTypeId;
+		
+		private EntityRef<Contact> _Contact;
+		
+		private EntityRef<PhoneType> _PhoneType;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnPhoneIdChanging(int value);
+    partial void OnPhoneIdChanged();
+    partial void OnContactIdChanging(int value);
+    partial void OnContactIdChanged();
+    partial void OnPhoneNumberChanging(string value);
+    partial void OnPhoneNumberChanged();
+    partial void OnPhoneTypeIdChanging(int value);
+    partial void OnPhoneTypeIdChanged();
+    #endregion
+		
+		public ContactPhone()
+		{
+			this.Initialize();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PhoneId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=1)]
+		public int PhoneId
+		{
+			get
+			{
+				return this._PhoneId;
+			}
+			set
+			{
+				if ((this._PhoneId != value))
+				{
+					this.OnPhoneIdChanging(value);
+					this.SendPropertyChanging();
+					this._PhoneId = value;
+					this.SendPropertyChanged("PhoneId");
+					this.OnPhoneIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ContactId", DbType="Int NOT NULL")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=2)]
+		public int ContactId
+		{
+			get
+			{
+				return this._ContactId;
+			}
+			set
+			{
+				if ((this._ContactId != value))
+				{
+					if (this._Contact.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnContactIdChanging(value);
+					this.SendPropertyChanging();
+					this._ContactId = value;
+					this.SendPropertyChanged("ContactId");
+					this.OnContactIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PhoneNumber", DbType="NChar(10) NOT NULL", CanBeNull=false)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=3)]
+		public string PhoneNumber
+		{
+			get
+			{
+				return this._PhoneNumber;
+			}
+			set
+			{
+				if ((this._PhoneNumber != value))
+				{
+					this.OnPhoneNumberChanging(value);
+					this.SendPropertyChanging();
+					this._PhoneNumber = value;
+					this.SendPropertyChanged("PhoneNumber");
+					this.OnPhoneNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PhoneTypeId", DbType="Int NOT NULL")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=4)]
+		public int PhoneTypeId
+		{
+			get
+			{
+				return this._PhoneTypeId;
+			}
+			set
+			{
+				if ((this._PhoneTypeId != value))
+				{
+					if (this._PhoneType.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnPhoneTypeIdChanging(value);
+					this.SendPropertyChanging();
+					this._PhoneTypeId = value;
+					this.SendPropertyChanged("PhoneTypeId");
+					this.OnPhoneTypeIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="FK_ContactPhones_ContactPhones", Storage="_Contact", ThisKey="ContactId", OtherKey="ContactId", IsForeignKey=true)]
+		public Contact Contact
+		{
+			get
+			{
+				return this._Contact.Entity;
+			}
+			set
+			{
+				Contact previousValue = this._Contact.Entity;
+				if (((previousValue != value) 
+							|| (this._Contact.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Contact.Entity = null;
+						previousValue.ContactPhones.Remove(this);
+					}
+					this._Contact.Entity = value;
+					if ((value != null))
+					{
+						value.ContactPhones.Add(this);
+						this._ContactId = value.ContactId;
+					}
+					else
+					{
+						this._ContactId = default(int);
+					}
+					this.SendPropertyChanged("Contact");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="FK_ContactPhones_PhoneTypes", Storage="_PhoneType", ThisKey="PhoneTypeId", OtherKey="PhoneTypeId", IsForeignKey=true)]
+		public PhoneType PhoneType
+		{
+			get
+			{
+				return this._PhoneType.Entity;
+			}
+			set
+			{
+				PhoneType previousValue = this._PhoneType.Entity;
+				if (((previousValue != value) 
+							|| (this._PhoneType.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._PhoneType.Entity = null;
+						previousValue.ContactPhones.Remove(this);
+					}
+					this._PhoneType.Entity = value;
+					if ((value != null))
+					{
+						value.ContactPhones.Add(this);
+						this._PhoneTypeId = value.PhoneTypeId;
+					}
+					else
+					{
+						this._PhoneTypeId = default(int);
+					}
+					this.SendPropertyChanged("PhoneType");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void Initialize()
+		{
+			this._Contact = default(EntityRef<Contact>);
+			this._PhoneType = default(EntityRef<PhoneType>);
+			OnCreated();
+		}
+		
+		[global::System.Runtime.Serialization.OnDeserializingAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Contacts")]
 	[global::System.Runtime.Serialization.DataContractAttribute()]
 	public partial class Contact : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -81,6 +343,10 @@ namespace Contacts.Linq
 		private string _ContactName;
 		
 		private System.DateTime _ContactDateAdded;
+		
+		private EntitySet<ContactPhone> _ContactPhones;
+		
+		private bool serializing;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -162,6 +428,25 @@ namespace Contacts.Linq
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="FK_ContactPhones_ContactPhones", Storage="_ContactPhones", ThisKey="ContactId", OtherKey="ContactId", DeleteRule="NO ACTION")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=4, EmitDefaultValue=false)]
+		public EntitySet<ContactPhone> ContactPhones
+		{
+			get
+			{
+				if ((this.serializing 
+							&& (this._ContactPhones.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
+				return this._ContactPhones;
+			}
+			set
+			{
+				this._ContactPhones.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -182,8 +467,21 @@ namespace Contacts.Linq
 			}
 		}
 		
+		private void attach_ContactPhones(ContactPhone entity)
+		{
+			this.SendPropertyChanging();
+			entity.Contact = this;
+		}
+		
+		private void detach_ContactPhones(ContactPhone entity)
+		{
+			this.SendPropertyChanging();
+			entity.Contact = null;
+		}
+		
 		private void Initialize()
 		{
+			this._ContactPhones = new EntitySet<ContactPhone>(new Action<ContactPhone>(this.attach_ContactPhones), new Action<ContactPhone>(this.detach_ContactPhones));
 			OnCreated();
 		}
 		
@@ -192,6 +490,262 @@ namespace Contacts.Linq
 		public void OnDeserializing(StreamingContext context)
 		{
 			this.Initialize();
+		}
+		
+		[global::System.Runtime.Serialization.OnSerializingAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnSerializing(StreamingContext context)
+		{
+			this.serializing = true;
+		}
+		
+		[global::System.Runtime.Serialization.OnSerializedAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnSerialized(StreamingContext context)
+		{
+			this.serializing = false;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.PhoneTypes")]
+	[global::System.Runtime.Serialization.DataContractAttribute()]
+	public partial class PhoneType : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _PhoneTypeId;
+		
+		private string _PhoneTypeCode;
+		
+		private string _PhoneTypeName;
+		
+		private EntitySet<ContactPhone> _ContactPhones;
+		
+		private bool serializing;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnPhoneTypeIdChanging(int value);
+    partial void OnPhoneTypeIdChanged();
+    partial void OnPhoneTypeCodeChanging(string value);
+    partial void OnPhoneTypeCodeChanged();
+    partial void OnPhoneTypeNameChanging(string value);
+    partial void OnPhoneTypeNameChanged();
+    #endregion
+		
+		public PhoneType()
+		{
+			this.Initialize();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PhoneTypeId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=1)]
+		public int PhoneTypeId
+		{
+			get
+			{
+				return this._PhoneTypeId;
+			}
+			set
+			{
+				if ((this._PhoneTypeId != value))
+				{
+					this.OnPhoneTypeIdChanging(value);
+					this.SendPropertyChanging();
+					this._PhoneTypeId = value;
+					this.SendPropertyChanged("PhoneTypeId");
+					this.OnPhoneTypeIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PhoneTypeCode", DbType="VarChar(10) NOT NULL", CanBeNull=false)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=2)]
+		public string PhoneTypeCode
+		{
+			get
+			{
+				return this._PhoneTypeCode;
+			}
+			set
+			{
+				if ((this._PhoneTypeCode != value))
+				{
+					this.OnPhoneTypeCodeChanging(value);
+					this.SendPropertyChanging();
+					this._PhoneTypeCode = value;
+					this.SendPropertyChanged("PhoneTypeCode");
+					this.OnPhoneTypeCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PhoneTypeName", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=3)]
+		public string PhoneTypeName
+		{
+			get
+			{
+				return this._PhoneTypeName;
+			}
+			set
+			{
+				if ((this._PhoneTypeName != value))
+				{
+					this.OnPhoneTypeNameChanging(value);
+					this.SendPropertyChanging();
+					this._PhoneTypeName = value;
+					this.SendPropertyChanged("PhoneTypeName");
+					this.OnPhoneTypeNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="FK_ContactPhones_PhoneTypes", Storage="_ContactPhones", ThisKey="PhoneTypeId", OtherKey="PhoneTypeId", DeleteRule="NO ACTION")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=4, EmitDefaultValue=false)]
+		public EntitySet<ContactPhone> ContactPhones
+		{
+			get
+			{
+				if ((this.serializing 
+							&& (this._ContactPhones.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
+				return this._ContactPhones;
+			}
+			set
+			{
+				this._ContactPhones.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_ContactPhones(ContactPhone entity)
+		{
+			this.SendPropertyChanging();
+			entity.PhoneType = this;
+		}
+		
+		private void detach_ContactPhones(ContactPhone entity)
+		{
+			this.SendPropertyChanging();
+			entity.PhoneType = null;
+		}
+		
+		private void Initialize()
+		{
+			this._ContactPhones = new EntitySet<ContactPhone>(new Action<ContactPhone>(this.attach_ContactPhones), new Action<ContactPhone>(this.detach_ContactPhones));
+			OnCreated();
+		}
+		
+		[global::System.Runtime.Serialization.OnDeserializingAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
+		}
+		
+		[global::System.Runtime.Serialization.OnSerializingAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnSerializing(StreamingContext context)
+		{
+			this.serializing = true;
+		}
+		
+		[global::System.Runtime.Serialization.OnSerializedAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnSerialized(StreamingContext context)
+		{
+			this.serializing = false;
+		}
+	}
+	
+	[global::System.Runtime.Serialization.DataContractAttribute()]
+	public partial class GetAllContactsResult
+	{
+		
+		private System.Nullable<int> _ContactId;
+		
+		private string _ContactName;
+		
+		private System.Nullable<System.DateTime> _ContactDateAdded;
+		
+		public GetAllContactsResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ContactId", DbType="Int")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=1)]
+		public System.Nullable<int> ContactId
+		{
+			get
+			{
+				return this._ContactId;
+			}
+			set
+			{
+				if ((this._ContactId != value))
+				{
+					this._ContactId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ContactName", DbType="NVarChar(100)")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=2)]
+		public string ContactName
+		{
+			get
+			{
+				return this._ContactName;
+			}
+			set
+			{
+				if ((this._ContactName != value))
+				{
+					this._ContactName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ContactDateAdded", DbType="SmallDateTime")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=3)]
+		public System.Nullable<System.DateTime> ContactDateAdded
+		{
+			get
+			{
+				return this._ContactDateAdded;
+			}
+			set
+			{
+				if ((this._ContactDateAdded != value))
+				{
+					this._ContactDateAdded = value;
+				}
+			}
 		}
 	}
 }
