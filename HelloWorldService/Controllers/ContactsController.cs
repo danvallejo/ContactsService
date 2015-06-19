@@ -34,23 +34,33 @@ namespace HelloWorldService.Controllers
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
+
+            var phones = new List<Models.Phone>();
+
+            foreach (var repositoryContact in contact.Phones)
+            {
+                var phone = new Models.Phone
+                {
+                    Number = repositoryContact.Number,
+                    PhoneType = (Models.PhoneType)Enum.Parse(typeof(Models.PhoneType), repositoryContact.PhoneType.ToString(), true),
+                };
+
+                phones.Add(phone);
+            }
+
             return new Models.Contact
             {
                 ID = contact.ID,
                 Name = contact.Name,
                 DateAdded = contact.DateAdded,
+                Phones = phones.ToArray(),
             };
         }
 
         // POST api/contacts
         public void Post([FromBody]Models.Contact contact)
         {
-            contactsRepository.Add(new HelloWorldRepository.Contact
-            {
-                ID = contact.ID,
-                Name = contact.Name,
-                DateAdded = contact.DateAdded,
-            });
+            contactsRepository.Add(contact.ConvertToRepository());
         }
 
         // PUT api/contacts/5

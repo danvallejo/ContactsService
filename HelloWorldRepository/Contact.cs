@@ -23,6 +23,6 @@ namespace HelloWorldRepository
     public enum PhoneType
     {
         Home,
-        Mobile,
+        Cell,
     }
 }

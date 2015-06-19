@@ -61,11 +61,25 @@ namespace HelloWorldRepository
                 return null;
             }
 
+            var phones = new List<Phone>();
+
+            foreach (var dbPhone in contact.ContactPhones)
+            {
+                var phone = new Phone
+                {
+                    Number = dbPhone.PhoneNumber,
+                    PhoneType = (PhoneType) Enum.Parse(typeof(PhoneType), dbPhone.PhoneType.PhoneTypeCode, true),
+                };
+
+                phones.Add(phone);
+            }
+
             return new Contact
             {
                 ID = contact.ContactId,
                 Name = contact.ContactName,
                 DateAdded = contact.ContactDateAdded,
+                Phones = phones.ToArray(),
             };
         }
 
